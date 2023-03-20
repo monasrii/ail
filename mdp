@@ -1,0 +1,72 @@
+from copy import deepcopy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+states = {
+
+    'SUN' : [[0.5 , 'SUN'] , [0.5,'WIND'] , 4],
+    'WIND' : [[0.5 , 'HAIL'] , [0.5,'SUN'] , 0],
+    'HAIL' : [[0.5, 'HAIL'] , [0.5,'WIND'] , -8],
+}
+
+original = {
+
+    'SUN' : 4,
+    'WIND' : 0,
+    'HAIL' : -8,
+}
+
+value = True
+function = ['SUN' , 'WIND' , 'HAIL']
+prev = deepcopy(original)
+
+
+while value:
+
+
+
+    for climate in function:
+
+        states[climate][2] = original[climate] + 0.9*states[climate][0][0]*prev[states[climate][0][1]] + 0.9*states[climate][1][0]*prev[states[climate][1][1]]
+
+    flag = 0
+    for climate in function:
+        if round(prev[climate],3) != round(states[climate][2],3):
+            flag = 1
+
+    for climate in function:
+        prev[climate] = states[climate][2]
+
+    print('')
+    for climate in function:
+        print( states[climate][2] , end = "  ")
+    if flag == 0:
+        value = False
+
+
