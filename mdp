@@ -69,4 +69,118 @@ while value:
     if flag == 0:
         value = False
 
+--------------------
+#hidden markov model forward algorithm
+H = {
+ 
+     'A' : 0.2,
+     'C' : 0.3,
+     'G' : 0.3,
+     'T' : 0.2,
+     
+ }
+
+L = {
+     
+     'A' : 0.3,
+     'C' : 0.2,
+     'G' : 0.2,
+     'T' : 0.3,
+    
+}
+
+seq = ['G' , 'G' , 'C' , 'A']
+
+i = 0
+
+table = [[],[]]
+
+for genes in seq:
+    if i == 0:
+        table[0].append(0.5*H[genes])
+        table[1].append(0.5*L[genes])
+        i  += 1
+        
+    else:
+        table[0].append(
+            
+            (table[0][i-1] * 0.5 * H[genes])
+            +
+            (table[1][i-1] * 0.4 * H[genes])
+            
+            )
+        table[1].append(
+            
+            (table[0][i-1] * 0.5 * L[genes])
+            +
+            (table[1][i-1] * 0.6 * L[genes])
+            
+            )
+        i = i+1
+    
+print(table)
+print("the probability that this seq will be generate is :  " , table[0][-1] + table[1][-1])
+
+-------
+#viterbi
+# viterbi algorithm
+# p(x,i) = e(x,l) * max(p(y,i-1)t(k,l))
+
+H = {
+ 
+     'A' : 0.2,
+     'C' : 0.3,
+     'G' : 0.3,
+     'T' : 0.2,
+     
+ }
+
+L = {
+     
+     'A' : 0.3,
+     'C' : 0.2,
+     'G' : 0.2,
+     'T' : 0.3,
+    
+}
+
+
+table = [[],[]]
+
+i = 0
+seq = ['G','G','C','A','C','T','G','A','A']
+
+for j in range(len(seq)) : 
+    if i == 0 :
+        table[0].append(0.5*H[seq[j]])
+        table[1].append(0.5*L[seq[j]])
+        i +=1
+        
+    else:
+        table[0].append(H[seq[j]] * max(
+            
+            table[0][i-1]*0.5 , table[1][i-1]*0.4
+            
+            ))
+        
+        table[1].append(L[seq[j-1]] * max(
+            
+            table[0][i-1]*0.5 , table[1][i-1]*0.4
+            
+            ))
+        
+        i += 1
+        
+        
+print(table)
+
+for i in range(len(table[0])):
+    
+    if table[0][i] > table[1][i]:
+        print('H' , end = "   ")
+    
+    else :
+        print("l", end = "   ")
+    
+
 
