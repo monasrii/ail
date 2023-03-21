@@ -28,6 +28,14 @@ from copy import deepcopy
 
 
 
+
+
+
+
+
+
+
+
 states = {
 
     'SUN' : [[0.5 , 'SUN'] , [0.5,'WIND'] , 4],
@@ -45,6 +53,33 @@ original = {
 value = True
 function = ['SUN' , 'WIND' , 'HAIL']
 prev = deepcopy(original)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 while value:
